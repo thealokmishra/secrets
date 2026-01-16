@@ -14,6 +14,8 @@ const port = 3000;
 const saltRounds = 10;
 env.config();
 
+app.set("view engine", "ejs");
+
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
