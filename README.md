@@ -56,10 +56,10 @@ This project is designed to showcase real-world authentication flows and backend
 
 ## Future Improvements
 
--Password reset and email verification
--Role-based access control
--Improved validation and error handling
--UI and accessibility enhancements
+- Password reset and email verification
+- Role-based access control
+- Improved validation and error handling
+- UI and accessibility enhancements
 
 ---
 
