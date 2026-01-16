@@ -105,13 +105,36 @@ app.get(
   })
 );
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/secrets",
-    failureRedirect: "/login",
-  })
-);
+// app.post(
+//   "/login",
+//   passport.authenticate("local", {
+//     successRedirect: "/secrets",
+//     failureRedirect: "/login",
+//   })
+// );
+
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    // If authentication fails (user not found or password wrong)
+    if (!user) {
+      return res.render("login", {
+        errorMessage: "Please enter correct email and password"
+      });
+    }
+
+    // If authentication succeeds, manually log in the user
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/secrets");
+    });
+  })(req, res, next);
+});
 
 app.post("/register", async (req, res) => {
   const email = req.body.username;
@@ -190,7 +213,7 @@ passport.use(
           }
         });
       } else {
-        return cb("User not found");
+        return cb(null, false);
       }
     } catch (err) {
       console.log(err);
